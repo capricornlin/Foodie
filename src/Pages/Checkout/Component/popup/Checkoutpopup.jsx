@@ -17,7 +17,7 @@ const Checkoutpopup = (props) => {
         ref={ModalRef}
         onClick={closeModal}
       >
-        <div className="bg-green-700 h-[200px] w-[90%] rounded-lg flex items-center mt-[500px] lg:mt-0 justify-center lg:w-[500px] ">
+        <div className="bg-gradient-to-r from-green-600 to-emerald-600 h-[200px] w-[90%] rounded-lg flex items-center mt-[500px] lg:mt-0 justify-center lg:w-[500px] ">
           <div>
             <MdOutlineCelebration className="text-white text-4xl mx-2" />
           </div>

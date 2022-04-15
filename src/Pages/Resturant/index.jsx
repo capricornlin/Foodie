@@ -9,6 +9,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { useState } from "react";
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from "react-icons/bs";
 import { MdOutlineFastfood, MdNoDrinks } from "react-icons/md";
+import { useAuth } from "../../Context/AuthContext";
 // import ResturantMap from "../../Components/ResturantMap";
 
 const Recommend = () => {
@@ -95,10 +96,21 @@ const PriceSearch = ({ SearchFrom, SetSearchFrom, SearchTo, SetSearchTo }) => {
   );
 };
 
+const Sign = () => {
+  return (
+    <>
+      <div className="my-[100px] p-[50px] text-5xl text-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-600">
+        Please Signin First
+      </div>
+    </>
+  );
+};
+
 const Resturant = ({ resturantName }) => {
   const itemReducer = useSelector((state) => state.ItemReducer);
   const items = itemReducer.Item;
   const [LeftNav, setLeftNav] = useState(false);
+  const { currentUser } = useAuth();
   const [SearchFrom, SetSearchFrom] = useState(0);
   // console.log("SearchFrom", SearchFrom);
   const [SearchTo, SetSearchTo] = useState(10000);
@@ -107,20 +119,11 @@ const Resturant = ({ resturantName }) => {
     setLeftNav(!LeftNav);
   }
 
-  return (
+  return currentUser ? (
     <>
       <Header />
 
       <ItemHeader resturantName={resturantName} />
-      {/* <SimpleSlider /> */}
-      {/* <div className="flex justify-center">
-        <ResturantMap />
-      </div> */}
-      {/* <div className="flex justify-center  ">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28921.254441313387!2d121.55480649947695!3d25.02875211008991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abadec7543c5%3A0x408dbd7aa34838cd!2zMTEw5Y-w5YyX5biC5L-h576p5Y2A!5e0!3m2!1szh-TW!2stw!4v1648398873614!5m2!1szh-TW!2stw"></iframe>
-      </div> */}
-
-      {/* <div className="absolute h-full"> */}
       <div onClick={HandleLeftNav} className="lg:hidden cursor-pointer fixed top-[258px]">
         <AiOutlineMenu className=" text-green-700 relative text-2xl hover:text-green-900 hover:scale-110 duration-100 hover:cursor-pointer" />
       </div>
@@ -141,7 +144,6 @@ const Resturant = ({ resturantName }) => {
           SetSearchTo={SetSearchTo}
         />
       </div>
-      {/* </div> */}
 
       <div className="w-full flex mt-10 ml-8 ">
         {/*TODO: 左側欄 */}
@@ -273,6 +275,11 @@ const Resturant = ({ resturantName }) => {
           <FaArrowUp className="h-[30px] w-[30px] m-1 hover:animate-bounce " />
         </button>
       </div>
+    </>
+  ) : (
+    <>
+      <Header />
+      <Sign />
     </>
   );
 };

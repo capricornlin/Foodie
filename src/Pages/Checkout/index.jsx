@@ -69,7 +69,7 @@ const Checkout = () => {
           {/*TODO: right */}
           <div className="bg-gray-200 h-[500px] 2xl:h-screen basis-[399px] ">
             <div
-              className="font-medium bg-green-700 hover:bg-green-900 hover:scale-105 hover:duration-1000 rounded-md w-[350px] p-5 text-white  text-center mt-[50px] cursor-pointer mx-auto active:bg-green-900 active:ring-4 ring-green-900 ring-offset-2 active:duration-100"
+              className="font-medium bg-gradient-to-r from-green-600 to-emerald-600 hover:bg-green-900 hover:scale-105 hover:duration-1000 rounded-md w-[350px] p-5 text-white  text-center mt-[50px] cursor-pointer mx-auto active:bg-green-900 active:ring-4 ring-emerald-600 ring-offset-2 active:duration-100"
               onClick={() => {
                 click();
               }}

@@ -5,7 +5,8 @@ import { AiOutlineShoppingCart, AiOutlineMenu } from "react-icons/ai";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { ImSpoonKnife } from "react-icons/im";
-
+import { useAuth } from "../Context/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 
 const ButtonLogin = () => {
@@ -48,7 +49,7 @@ const ButtonSignup = () => {
   return (
     <>
       <button
-        className="active:bg-green-900 active:ring-4 duration-100 ring-green-900 ring-offset-2 font-medium  text-white py-2 px-4  mr-5 bg-green-700  hover:bg-green-900 flex items-center justify-center rounded-md cursor-pointer"
+        className="active:bg-emerald-400 active:ring-4 duration-100 ring-emerald-400 ring-offset-2 font-medium  text-white py-2 px-4  mr-5 bg-gradient-to-r from-green-600 to-emerald-600  hover:bg-emerald-400 flex items-center justify-center rounded-md cursor-pointer"
         onClick={() => setSignupPop(true)}
       >
         SignUp
@@ -73,6 +74,40 @@ const ButtonSignupmobile = () => {
   );
 };
 
+const Logout = () => {
+  const go = useNavigate();
+  const { logout } = useAuth();
+  return (
+    <div
+      className="active:bg-green-900 active:ring-4 duration-100 ring-emerald-600 ring-offset-2 font-medium  text-white py-2 px-4  mr-5 bg-gradient-to-r from-green-600 to-emerald-600  hover:bg-green-900 flex items-center justify-center rounded-md cursor-pointer"
+      onClick={() => {
+        logout();
+        toast.success("Logout Successfully");
+        // go("/Logout");
+      }}
+    >
+      <div className="flex items-center">Logout</div>
+    </div>
+  );
+};
+
+const Logoutmobile = () => {
+  const { logout } = useAuth();
+  return (
+    <button
+      className="hover:scale-110 duration-100 hover:font-semibold font-medium  text-green-700  py-2 px-4     flex items-center justify-center  cursor-pointer"
+      onClick={() => {
+        logout();
+        toast.success("Logout Successfully");
+        // go("/Logout");
+      }}
+    >
+      {/* <div className="flex items-center">Logout</div> */}
+      Logout
+    </button>
+  );
+};
+
 const ButtonCheckout = () => {
   const itemReducer = useSelector((state) => state.ItemReducer);
   const items = itemReducer.Item;
@@ -88,7 +123,7 @@ const ButtonCheckout = () => {
   return (
     <>
       <button
-        className="active:bg-green-900 active:ring-4 duration-100 ring-green-900 ring-offset-2 font-medium  text-white  py-2 px-4    bg-green-700  hover:bg-green-900 flex items-center justify-center rounded-md cursor-pointer"
+        className=" active:ring-4 duration-100 ring-emerald-400 ring-offset-2 font-medium  text-white  py-2 px-4    bg-gradient-to-r from-green-600 to-emerald-600   flex items-center justify-center rounded-md cursor-pointer"
         onClick={() => {
           go("/Checkout");
         }}
@@ -146,10 +181,12 @@ const ButtonNav = (props) => {
 };
 
 const Showmenu = () => {
+  const { currentUser } = useAuth();
   return (
     <>
-      <ButtonLoginmobile />
-      <ButtonSignupmobile />
+      {!currentUser && <ButtonLoginmobile />}
+      {!currentUser && <ButtonSignupmobile />}
+      {currentUser && <Logoutmobile />}
       <ButtonCheckoutmobile />
     </>
   );
@@ -157,6 +194,7 @@ const Showmenu = () => {
 
 const Header = () => {
   const go = useNavigate();
+  const { currentUser } = useAuth();
   const [Navpop, setNavpop] = useState(false);
 
   return (
@@ -166,13 +204,12 @@ const Header = () => {
         <div className="flex justify-between items-center h-[60px] px-2 lg:max-w-[1024px] lg:mx-auto lg:px-0 ">
           {/* 左側 */}
           <div
-            className="group font-semibold text-green-700 text-3xl cursor-pointer hover:text-green-900 flex justify-center items-center "
+            className="group font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 text-3xl cursor-pointer hover:text-transparent hover:bg-clip-text  hover:bg-gradient-to-r hover:from-green-600 hover:to-emerald-600 flex justify-center items-center "
             onClick={() => {
               go("/");
             }}
           >
             <div>
-              {" "}
               <ImSpoonKnife className="origin-center group-hover:animate-bounce duration-300" />
             </div>
             <div> Foodie</div>
@@ -183,15 +220,13 @@ const Header = () => {
             <ButtonNav NavPop={Navpop} setNavpop={setNavpop} />
           </div>
           <div className=" hidden md:flex">
-            <ButtonLogin />
-            <ButtonSignup />
+            {!currentUser && <ButtonLogin />}
+            {!currentUser && <ButtonSignup />}
+            {currentUser && <Logout />}
             <ButtonCheckout />
           </div>
         </div>
-        {/* console.log('NavPop',NavPop); */}
-        {/* <div>mobile menu show here</div> */}
         <div className="md:hidden">{Navpop && <Showmenu />}</div>
-        {/* {Navpop && <Showmenu />} */}
         {/*TODO: 下層 */}
         <div className="flex flex-wrap justify-center  items-center h-[30px]  lg:max-w-[1024px] lg:mx-auto  ">
           <div
@@ -243,9 +278,12 @@ const Header = () => {
             收藏餐廳
           </div>
         </div>
-        {/* <LoginPopup LoginPop={LoginPop} setLoginPop={setLoginPop} /> */}
-        {/* <SignupPopup SignupPop={SignupPop} setSignupPop={setSignupPop} /> */}
       </header>
+      <Toaster
+        toastOptions={{
+          style: { fontSize: "1.2rem" },
+        }}
+      />
     </>
   );
 };
